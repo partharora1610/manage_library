@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 
 // providers
 import "./globals.css";
+import ModalProvider from "@/context/ModalProviders";
 
 // styles
 
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <ModalProvider />
         <body>{children}</body>
       </html>
     </ClerkProvider>
