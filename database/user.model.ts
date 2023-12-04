@@ -4,6 +4,7 @@ export interface IUser extends mongoose.Document {
   clerkId: string;
   name: string;
   username: string;
+  role?: "admin" | "student";
   email: string;
   password?: string;
   bio?: string;
@@ -11,11 +12,17 @@ export interface IUser extends mongoose.Document {
   issueHistory?: Schema.Types.ObjectId[];
 }
 
-const userSchema = new Schema<IUser>({
+enum Role {
+  ADMIN = "admin",
+  STUDENT = "student",
+}
+
+const userSchema = new Schema({
   clerkId: { type: String, required: true },
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
+  role: { type: String, default: Role.STUDENT },
   password: { type: String },
   bio: { type: String },
   scalerId: { type: String },

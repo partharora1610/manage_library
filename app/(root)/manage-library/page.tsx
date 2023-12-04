@@ -1,7 +1,6 @@
 import AdminActions from "@/components/shared/Library/AdminActions";
 import BookContainer from "@/components/shared/Library/BookContainer";
 import LocalSearch from "@/components/shared/Search";
-import { getAllBooks } from "@/lib/actions/book.action";
 import React from "react";
 
 const Page = async () => {

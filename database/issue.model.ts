@@ -2,6 +2,7 @@ import mongoose, { Schema, models } from "mongoose";
 
 export interface IIssue extends mongoose.Document {
   user: Schema.Types.ObjectId;
+  book: Schema.Types.ObjectId;
   issueDate: Date;
   returnDate: Date;
   returned: boolean;
@@ -13,6 +14,11 @@ const IssueSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "User",
+  },
+  book: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Book",
   },
   issueDate: {
     type: Date,

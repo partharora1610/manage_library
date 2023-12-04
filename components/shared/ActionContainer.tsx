@@ -9,10 +9,10 @@ const ACTION_CARD_DATA = [
     buttonLink: "/manage-library",
   },
   {
-    title: "Issue Book",
+    title: "Manage Students",
     description: "Issue a book to a student",
     buttonText: "Create a new project",
-    buttonLink: "/projects/new",
+    buttonLink: "/students",
     imageSrc: "/images/undraw/undraw_new_project.svg",
     imageAlt: "Create a new project",
   },
