@@ -14,7 +14,7 @@ const BookContainer = async (params: any) => {
             available={book.available}
             author={book.author}
             genre={book.genre}
-            issueHistory={JSON.parse(JSON.stringify(book.issueHistory))}
+            latestIssue={JSON.parse(JSON.stringify(book.latestIssue))}
             id={book._id}
           />
         );

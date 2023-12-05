@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import Book from "@/database/book.model";
+import Issue from "@/database/issue.model";
+import User from "@/database/user.model";
 // import Issue from "@/database/issue.model";
 
 export const createBook = async (params: any) => {
@@ -29,13 +31,17 @@ export const getAllBooks = async (params: any) => {
   try {
     connectToDatabase();
 
-    // This is giving the error I am not able populate the issueHistory array with Issue model
     const books = await Book.find({}).populate({
-      path: "issueHistory",
-      model: "Issue", // Make sure to specify the model for population
+      path: "latestIssue",
+      model: Issue,
+      populate: {
+        path: "user",
+        model: User,
+        select: "name scalerId",
+      },
     });
 
-    console.log(books);
+    // console.log(books);
 
     return { data: books };
   } catch (error) {
@@ -51,6 +57,21 @@ export const getBookById = async (params: any) => {
     const book = await Book.findById(params.id);
 
     console.log(book);
+
+    return { data: book };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBookByIdWithLatestAction = async (params: any) => {
+  try {
+    const { id } = params;
+
+    const book = await Book.findById(id).populate({
+      path: "latestIssue",
+      model: "Issue",
+    });
 
     return { data: book };
   } catch (error) {

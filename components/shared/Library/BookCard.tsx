@@ -16,7 +16,8 @@ import { useModal } from "@/hooks/useModal";
 const BookCard = (params: any) => {
   const { onOpen } = useModal();
 
-  const { title, author, available, genre, id } = params;
+  const { title, author, available, genre, id, latestIssue } = params;
+  // console.log(lastestIssue);
 
   return (
     <Card className="w-[380px] relative">
@@ -54,7 +55,13 @@ const BookCard = (params: any) => {
         ) : (
           <Button
             className="border-2 px-10 border-primary-500 hover:bg-primary-500  hover:text-white"
-            onClick={() => onOpen("recieveBook", { bookId: id })}
+            onClick={() =>
+              onOpen("recieveBook", {
+                bookId: id,
+                bookName: title,
+                latestIssue: latestIssue,
+              })
+            }
           >
             Recieve Book
           </Button>

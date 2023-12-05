@@ -7,17 +7,14 @@ import User from "@/database/user.model";
 
 export const issueBook = async (params: any) => {
   try {
-    await connectToDatabase();
-
-    // here the userId is the ScalerId
-    // bookId is the ID of the book to be issued which is passed via the modal
+    connectToDatabase();
     const { bookId, scalerId } = params;
-    // console.log(bookId, scalerId);
 
     const book = await Book.findOne({ _id: bookId });
     const user = await User.findOne({ scalerId: scalerId });
 
-    // console.log(book, user);
+    console.log({ book });
+    console.log({ user });
 
     if (!user)
       return {
@@ -35,11 +32,11 @@ export const issueBook = async (params: any) => {
         user: user._id,
       });
 
+      console.log({ issue });
       const updatedBook = await Book.findOneAndUpdate(
         { _id: book._id },
         {
-          $push: { issueHistory: issue._id },
-          $set: { available: false },
+          $set: { available: false, latestIssue: issue._id },
         },
         { new: true }
       );
@@ -61,34 +58,64 @@ export const issueBook = async (params: any) => {
   }
 };
 
-const returnBook = async (params: any) => {
+export const returnBook = async (params: any) => {
   try {
-    await connectToDatabase();
-
+    console.log(params);
     const { bookId, userId } = params;
 
-    console.log(bookId, userId);
+    const user = await User.findOne({ _id: userId });
 
-    const book = await Book.findOne({ _id: params.bookId });
+    const book = await Book.findOne({ _id: bookId }).populate({
+      path: "latestIssue",
+      model: Issue,
+    });
+
+    console.log({ book });
+    console.log({ user });
+
+    if (!user)
+      return {
+        status: false,
+        message: "Invalid scalerId, no user with such Id exist in the database",
+      };
 
     if (book) {
-      const issue = await Issue.create({
-        bookId: params.bookId,
-        userId: params.userId,
-      });
+      if (book.available) {
+        return { status: false, message: "Book already returned" };
+      }
+
+      console.log(book.latestIssue.user.toString(), user._id.toString());
+
+      if (book.latestIssue.user.toString() !== user._id.toString()) {
+        return {
+          status: false,
+          message: "Book is not issued to this user",
+        };
+      }
 
       const updatedBook = await Book.findOneAndUpdate(
         { _id: book._id },
         {
-          $set: { available: false },
+          $set: { available: true, lastIssue: null },
         },
         { new: true }
       );
-      return { status: true, message: "Book issued successfully" };
+
+      const updatedIssue = await Issue.findOneAndUpdate(
+        { _id: book.latestIssue._id },
+        {
+          $set: { returned: true },
+        },
+        { new: true }
+      );
+
+      return { status: true, message: "Book returned successfully" };
     } else {
       return { status: false, message: "Book not found" };
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getIssues = async (params: any) => {

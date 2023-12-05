@@ -9,6 +9,7 @@ export interface IBook extends mongoose.Document {
   image?: string;
   genre?: string;
   available?: boolean;
+  latestIssue: Schema.Types.ObjectId;
 }
 
 const BookSchema = new Schema({
@@ -16,18 +17,21 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
+
   description: {
     type: String,
   },
+
   author: {
     type: String,
   },
-  issueHistory: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: Issue,
-    },
-  ],
+
+  latestIssue: {
+    type: Schema.Types.ObjectId,
+    ref: Issue,
+    default: null,
+  },
+
   image: {
     type: String,
   },

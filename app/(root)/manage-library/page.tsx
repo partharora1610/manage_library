@@ -1,3 +1,4 @@
+import BookFilter from "@/components/shared/BookFilter";
 import AdminActions from "@/components/shared/Library/AdminActions";
 import BookContainer from "@/components/shared/Library/BookContainer";
 import LocalSearch from "@/components/shared/Search";
@@ -6,7 +7,7 @@ import React from "react";
 
 const Page = async () => {
   const results = await getAllBooks({});
-  console.log(results);
+  // console.log(results);
 
   return (
     <div>
@@ -14,7 +15,7 @@ const Page = async () => {
         <LocalSearch placeholder="Search books, magazines and collections" />
         <AdminActions />
       </div>
-      FILTERS
+      <BookFilter />
       <BookContainer results={results} />
     </div>
   );

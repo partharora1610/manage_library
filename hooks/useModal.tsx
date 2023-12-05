@@ -5,6 +5,9 @@ export type ModalType = "issueBook" | "recieveBook";
 
 interface ModalData {
   bookId?: string;
+  bookName?: string;
+  fine?: number;
+  latestIssue?: any;
 }
 
 interface ModalStore {
