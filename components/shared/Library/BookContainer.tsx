@@ -1,14 +1,12 @@
 import React from "react";
 import BookCard from "./BookCard";
-import { getAllBooks } from "@/lib/actions/book.action";
 
 const BookContainer = async (params: any) => {
-  const results = await getAllBooks({});
-  console.log(results);
+  const { results } = params;
 
   return (
     <div className="flex flex-wrap gap-8">
-      {results?.data.map((book, index) => {
+      {results?.data.map((book: any, index: number) => {
         return (
           <BookCard
             key={index}

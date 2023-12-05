@@ -9,6 +9,8 @@ export const issueBook = async (params: any) => {
   try {
     await connectToDatabase();
 
+    // here the userId is the ScalerId
+    // bookId is the ID of the book to be issued which is passed via the modal
     const { bookId, userId } = params;
 
     const book = await Book.findOne({ _id: bookId });
@@ -22,7 +24,7 @@ export const issueBook = async (params: any) => {
 
     if (book) {
       if (!book.available) {
-        return { status: false, message: "Book not found" };
+        return { status: false, message: "Book not avaiable for issue rn" };
       }
 
       const issue = await Issue.create({
