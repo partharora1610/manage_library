@@ -12,12 +12,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const StudentCard = (params: any) => {
-  const { name, username, scalerId, issueHistory } = params;
+  const { name, username, scalerId, issueHistory, _id } = params;
 
   const numebrOfBooksIssued = issueHistory.length;
 
   return (
-    <Link href={`/profile/${username}`}>
+    <Link href={`/profile/${_id}`}>
       <Card className="flex justify-between items-end">
         <CardHeader>
           <CardTitle>

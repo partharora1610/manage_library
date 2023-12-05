@@ -11,10 +11,13 @@ export const issueBook = async (params: any) => {
 
     // here the userId is the ScalerId
     // bookId is the ID of the book to be issued which is passed via the modal
-    const { bookId, userId } = params;
+    const { bookId, scalerId } = params;
+    // console.log(bookId, scalerId);
 
     const book = await Book.findOne({ _id: bookId });
-    const user = await User.findOne({ scalerId: userId });
+    const user = await User.findOne({ scalerId: scalerId });
+
+    // console.log(book, user);
 
     if (!user)
       return {
@@ -41,6 +44,14 @@ export const issueBook = async (params: any) => {
         { new: true }
       );
 
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        {
+          $push: { issueHistory: issue._id },
+        },
+        { new: true }
+      );
+
       return { status: true, message: "Book issued successfully" };
     } else {
       return { status: false, message: "Book not found" };
@@ -55,6 +66,8 @@ const returnBook = async (params: any) => {
     await connectToDatabase();
 
     const { bookId, userId } = params;
+
+    console.log(bookId, userId);
 
     const book = await Book.findOne({ _id: params.bookId });
 

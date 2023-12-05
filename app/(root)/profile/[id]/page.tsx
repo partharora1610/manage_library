@@ -8,13 +8,11 @@ import React, { use } from "react";
 const Page = async ({ params }: { params: { id: string } }) => {
   const issues = await getIssues({ userId: params.id });
 
-  console.log(issues);
-
   return (
     <div>
       <ProfileHeader />
       <Badges />
-      <IssueContainer />
+      <IssueContainer issues={issues?.data} />
     </div>
   );
 };

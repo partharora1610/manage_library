@@ -12,16 +12,20 @@ const Page = async () => {
   return (
     <div>
       <LocalSearch placeholder="search students" />
-      {students?.users?.map((student) => {
-        return (
-          <StudentCard
-            name={student.name}
-            username={student.username}
-            scalerId={student.scalerId}
-            issueHistory={student.issueHistory}
-          />
-        );
-      })}
+
+      <div className="flex flex-col gap-6">
+        {students?.users?.map((student) => {
+          return (
+            <StudentCard
+              name={student.name}
+              username={student.username}
+              scalerId={student.scalerId}
+              issueHistory={student.issueHistory}
+              _id={student._id}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const IssueBookModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    console.log(values.scalerId);
 
     const res = await issueBook({
       scalerId: values.scalerId,

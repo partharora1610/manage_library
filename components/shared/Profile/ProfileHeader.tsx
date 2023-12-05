@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
-const ProfileHeader = () => {
+const ProfileHeader = async () => {
+  // get the data of the students here
   return (
     <div className="flex items-center justify-between">
       <div>

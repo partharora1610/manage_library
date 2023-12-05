@@ -12,7 +12,10 @@ import {
 import Image from "next/image";
 
 const Issuecard = (params: any) => {
-  const { title, author, available, genre, id } = params;
+  const { bookName, author, returned, issueDate, returnDate, fine } = params;
+
+  const issue = JSON.stringify(issueDate);
+  const returnD = JSON.stringify(returnDate);
 
   return (
     <Card className="w-[380px]">
@@ -25,19 +28,18 @@ const Issuecard = (params: any) => {
             height={200}
           />
           <CardTitle>
-            <p className="h3-semibold mb-1">{"title"}</p>
+            <p className="h3-semibold mb-1">{bookName}</p>
             <div>
-              <p className="paragraph-regular text-gray-600">{"author"}</p>
+              <p className="paragraph-regular text-gray-600">{author}</p>
             </div>
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent>
-        <p>Issued on</p>
-        <p>Returned on</p>
-        <p>Fine Paid: 0</p>
+        <p>Issued on : {issue}</p>
+        <p>Returned on: {returnD}</p>
+        <p>Fine Paid: {fine}</p>
       </CardContent>
-      {/* <CardFooter className="flex justify-between">Footer</CardFooter> */}
     </Card>
   );
 };
