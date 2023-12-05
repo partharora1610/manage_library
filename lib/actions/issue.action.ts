@@ -12,13 +12,13 @@ export const issueBook = async (params: any) => {
     const { bookId, userId } = params;
 
     const book = await Book.findOne({ _id: bookId });
-    // const user = await User.findOne({ scalerId: userId });
+    const user = await User.findOne({ scalerId: userId });
 
-    // if (!user)
-    //   return {
-    //     status: false,
-    //     message: "Invalid scalerId, no user with such Id exist in the database",
-    //   };
+    if (!user)
+      return {
+        status: false,
+        message: "Invalid scalerId, no user with such Id exist in the database",
+      };
 
     if (book) {
       if (!book.available) {
@@ -26,9 +26,8 @@ export const issueBook = async (params: any) => {
       }
 
       const issue = await Issue.create({
-        // book: bookId,
-        // user: user._id,
-        user: "656baf13b908bfd9b82163d5",
+        book: book._id,
+        user: user._id,
       });
 
       const updatedBook = await Book.findOneAndUpdate(
@@ -75,4 +74,22 @@ const returnBook = async (params: any) => {
       return { status: false, message: "Book not found" };
     }
   } catch (error) {}
+};
+
+export const getIssues = async (params: any) => {
+  try {
+    connectToDatabase();
+
+    const { userId } = params;
+
+    const issues = await Issue.find({
+      user: userId,
+    }).populate({ path: "book", model: Book });
+
+    console.log(issues);
+
+    return { data: issues };
+  } catch (error) {
+    console.log(error);
+  }
 };

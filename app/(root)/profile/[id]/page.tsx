@@ -1,10 +1,15 @@
 import Badges from "@/components/shared/Profile/Badges";
 import IssueContainer from "@/components/shared/Profile/IssueContainer";
 import ProfileHeader from "@/components/shared/Profile/ProfileHeader";
-import React from "react";
+import { getIssues } from "@/lib/actions/issue.action";
+import { get } from "http";
+import React, { use } from "react";
 
-const Page = async () => {
-  // here we need to fetch the data of the user via the clerkId
+const Page = async ({ params }: { params: { id: string } }) => {
+  const issues = await getIssues({ userId: params.id });
+
+  console.log(issues);
+
   return (
     <div>
       <ProfileHeader />

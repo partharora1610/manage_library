@@ -30,12 +30,10 @@ export const getAllBooks = async (params: any) => {
     connectToDatabase();
 
     // This is giving the error I am not able populate the issueHistory array with Issue model
-    // const books = await Book.find({}).populate({
-    //   path: "issueHistory",
-    //   model: "Issue", // Make sure to specify the model for population
-    // });
-
-    const books = await Book.find({});
+    const books = await Book.find({}).populate({
+      path: "issueHistory",
+      model: "Issue", // Make sure to specify the model for population
+    });
 
     console.log(books);
 

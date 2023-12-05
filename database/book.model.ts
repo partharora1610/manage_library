@@ -1,4 +1,5 @@
 import mongoose, { Schema, models } from "mongoose";
+import Issue from "./issue.model";
 
 export interface IBook extends mongoose.Document {
   title: string;
@@ -24,7 +25,7 @@ const BookSchema = new Schema({
   issueHistory: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Issue",
+      ref: Issue,
     },
   ],
   image: {
